@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>bundleid</key>
+    <string>com.vittorio_zaccaria.superfind</string>
+    <key>createdby</key>
+    <string>Vittorio Zaccaria</string>
+    <key>description</key>
+    <string>Simple alfred interface to mdfind</string>
+    <key>disabled</key>
+    <false/>
+    <key>name</key>
+    <string>superfind</string>
+    <key>webaddress</key>
+    <string>https://your-git-address-here</string>
+    <key>uid</key>
+    <string>ee5b826f-d075-4882-9496-3292773190db</string>
+    <key>objects</key>
+    <array>
+      <dict>
+        <key>config</key>
+        <dict>
+          <key>argumenttype</key>
+          <integer>1</integer>
+          <key>keyword</key>
+          <string>fn</string>
+          <key>runningsubtext</key>
+          <string>Running superfind...</string>
+          <key>script</key>
+          <string>/usr/local/bin/node index.js &quot;{query}&quot;</string>
+          <key>title</key>
+          <string>superfind...</string>
+          <key>type</key>
+          <integer>0</integer>
+          <key>withspace</key>
+          <true/>
+        </dict>
+        <key>type</key>
+        <string>alfred.workflow.input.scriptfilter</string>
+        <key>uid</key>
+        <string>4203f95a-b1ce-4778-9828-c3e37ee150ff</string>
+        <key>version</key>
+        <integer>0</integer>
+      </dict>
+      <dict>
+        <key>config</key>
+        <dict/>
+        <key>type</key>
+        <string>alfred.workflow.action.openfile</string>
+        <key>uid</key>
+        <string>550cff72-5f0a-458e-94c8-b3f4052d0a8f</string>
+      </dict>
+    </array>
+    <key>connections</key>
+    <dict>
+      <key>4203f95a-b1ce-4778-9828-c3e37ee150ff</key>
+      <array>
+        <dict>
+          <key>destinationuid</key>
+          <string>550cff72-5f0a-458e-94c8-b3f4052d0a8f</string>
+          <key>modifiers</key>
+          <integer>0</integer>
+          <key>modifiersubtext</key>
+          <string></string>
+        </dict>
+      </array>
+    </dict>
+    <key>uidata</key>
+    <dict>
+      <key>4203f95a-b1ce-4778-9828-c3e37ee150ff</key>
+      <dict>
+        <key>ypos</key>
+        <integer>10</integer>
+      </dict>
+      <key>550cff72-5f0a-458e-94c8-b3f4052d0a8f</key>
+      <dict>
+        <key>ypos</key>
+        <integer>10</integer>
+      </dict>
+    </dict>
+  </dict>
+</plist>

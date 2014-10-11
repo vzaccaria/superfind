@@ -1,0 +1,19 @@
+{
+  "name": "superfind",
+  "version": "0.0.1",
+  "description": "Simple alfred interface to mdfind",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vittorio Zaccaria",
+  "license": "BSD",
+  "dependencies": {
+    "plist": "~1.1.0",
+    "alfredo": "~0.2.0",
+    "winston": "~0.8.1",
+    "newmake": "0.0.2"
+  },
+  "filter-icon": "images/icon.png",
+  "workflow-icon": "images/icon.png"
+}
