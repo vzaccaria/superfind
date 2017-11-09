@@ -15,7 +15,7 @@
     <key>webaddress</key>
     <string>https://your-git-address-here</string>
     <key>uid</key>
-    <string>5c909e2e-548a-4682-8b5e-331b33bb3850</string>
+    <string>1cef9eb6-f2fc-4e37-bd8a-9fcd03becad4</string>
     <key>objects</key>
     <array>
       <dict>
@@ -24,7 +24,7 @@
           <key>argumenttype</key>
           <integer>1</integer>
           <key>keyword</key>
-          <string>fn</string>
+          <string>f</string>
           <key>runningsubtext</key>
           <string>Running superfind...</string>
           <key>script</key>
@@ -39,7 +39,7 @@
         <key>type</key>
         <string>alfred.workflow.input.scriptfilter</string>
         <key>uid</key>
-        <string>b9c5bd49-af1a-4cc6-aab5-0140efa71530</string>
+        <string>8419f5a2-bc32-4c25-8352-61e4912c623d</string>
         <key>version</key>
         <integer>0</integer>
       </dict>
@@ -49,16 +49,16 @@
         <key>type</key>
         <string>alfred.workflow.action.openfile</string>
         <key>uid</key>
-        <string>df6bf70a-b5c1-4515-9a34-7e0f89c4bcee</string>
+        <string>0b7284eb-0f60-422a-a4a6-cd17369ed54a</string>
       </dict>
     </array>
     <key>connections</key>
     <dict>
-      <key>b9c5bd49-af1a-4cc6-aab5-0140efa71530</key>
+      <key>8419f5a2-bc32-4c25-8352-61e4912c623d</key>
       <array>
         <dict>
           <key>destinationuid</key>
-          <string>df6bf70a-b5c1-4515-9a34-7e0f89c4bcee</string>
+          <string>0b7284eb-0f60-422a-a4a6-cd17369ed54a</string>
           <key>modifiers</key>
           <integer>0</integer>
           <key>modifiersubtext</key>
@@ -68,12 +68,12 @@
     </dict>
     <key>uidata</key>
     <dict>
-      <key>b9c5bd49-af1a-4cc6-aab5-0140efa71530</key>
+      <key>8419f5a2-bc32-4c25-8352-61e4912c623d</key>
       <dict>
         <key>ypos</key>
         <integer>10</integer>
       </dict>
-      <key>df6bf70a-b5c1-4515-9a34-7e0f89c4bcee</key>
+      <key>0b7284eb-0f60-422a-a4a6-cd17369ed54a</key>
       <dict>
         <key>ypos</key>
         <integer>10</integer>

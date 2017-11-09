@@ -6,6 +6,8 @@ _       = require('underscore')
 _.str   = require('underscore.string');
 moment  = require 'moment'
 shelljs = require('shelljs')
+clip    = require('cliparoo')
+escape  = require('shell-escape');
 
 _.mixin(_.str.exports());
 _.str.include('Underscore.string', 'string');
@@ -17,27 +19,33 @@ winston.info process.argv
 
 
 args = process.argv[2]
-
 args = _.words(args)
 
-words = _.reject args, -> 
-    c = it.charAt(0)
-    return (c == "." or c== "<" or c == ">" or c=='#')
+category = (w) ->
+    c = w.charAt(0)
+    cat = 
+        | c == '#'                  => { value: w, type: 'word'  }
+        | c == '.'                  => { value: w, type: 'type'  }
+        | c == '<' or c == '>'      => { value: w, type: 'date'  }
+        | c == '+'                  => { value: w, type: 'force' }
+        | otherwise                 => { value: w, type: 'name'  }
 
-f-types = _.filter args, ->
-    c = it.charAt(0)
-    return c == "."
+categorized = [ category(w) for w in args ]
 
-f-name = _.filter args, ->
-    c = it.charAt(0)
-    return c == '#'
+f-words = _.map(_.filter(categorized, (.type == 'word')), (.value))
+f-types = _.map(_.filter(categorized, (.type == 'type')), (.value))
+f-name  = _.map(_.filter(categorized, (.type == 'name')), (.value))
+f-dates = _.map(_.filter(categorized, (.type == 'date')), (.value))
 
-f-dates = _.filter args, ->
-    c = it.charAt(0)
-    return (c == '>' or c == '<')
+web-docs    = [ \.html \.pdf ]
+gen-docs    = [ \.doc \.docx \.pages \.md ]
+pres-docs   = [ \.ppt \.pptx \.key ]
+
+all-docs = web-docs ++ gen-docs ++ pres-docs 
+if f-types.length == 0
+    f-types := all-docs 
 
 winston.info f-dates
-
 
 
 to-from-date = (op, number, unit) ->
@@ -80,33 +88,39 @@ get-time-reference = (txt) ->
 
     return undefined
 
-fire = _.any(words, -> it.length > 4) or _.any(f-name, -> it.length > 4)
+fire = _.any(f-words ++ f-name, (.length > 4)) or _.any(categorized, (.type== "force"))
 
-q-contents = [ "(kMDItemTextContent=\"#txt\"cd || kMDItemFSName=*#txt*)" for txt in words ] * ' && '
+q-contents = [ "(kMDItemTextContent=\"#{txt.slice(1)}\"wc)" for txt in f-words ] * ' && '
 winston.info q-contents
 
-q-types    = [ "kMDItemFSName=*#txt"  for txt in f-types ]              * ' || '
+q-types    = ([ "kMDItemFSName=\"*.#{txt.slice(1)}\"wc"  for txt in f-types ] ++ [ "kMDItemKind=folder"])             * ' || '
 winston.info q-types
 
-q-name     = [ "kMDItemFSName=*#{txt.slice(1)}*" for txt in f-name ]    * ' || '
+q-name     = [ "kMDItemFSName=\"*#{txt}*\"wc" for txt in f-name ] * ' || '
 winston.info q-name 
 
-q-dates    = [ get-time-reference(txt) for txt in f-dates ]             * ' && '
+q-dates    = [ get-time-reference(txt) for txt in f-dates ] * ' && '
 winston.info q-dates
 
 
 query = _.filter [q-contents, q-types, q-name, q-dates], ->
     it != ""
 
-query = query * ' && '
+query = [ "(#q)" for q in query ] * ' && '
+
+files = []
+
+pquery = "'#query'"
+shelljs.exec "echo #pquery | pbcopy", {+async, +silent}, ->
 
 if fire 
+    query = "mdfind #pquery -onlyin ~"
     winston.info "Executing query #query"
-    shelljs.exec "mdfind '#query' -onlyin ~", {+silent}, (err, output) ->
-        if not err
-            files = _.lines(output)
-            files = _.first(files, 30)
-            files = files.map ->
+    child = shelljs.exec query, {+async, +silent}
+    child.stdout.on "data", (output) ->
+            winston.info output
+            files := _.lines(output)
+            show = files.map ->
 
                 type = path.extname(it).slice(1)
 
@@ -118,14 +132,14 @@ if fire
 
                 item.icon = 
                     '@': 
-                        type: 'filetype'
-                    '#': "public.#type"
+                        type: 'fileicon'
+                    '#': "#it"
 
 
                 new alfredo.Item(item)
 
-            alfredo.feedback(files)
+            alfredo.feedback(show)
         # alfredo.feedback(new alfredo.Item(title: "sorry", valid: true))
 
 else 
-    alfredo.feedback(new alfredo.Item(title: "sorry, try a longer term to look for", valid: false))
+    alfredo.feedback(new alfredo.Item(title: "Try a longer term to search for", valid: false))
